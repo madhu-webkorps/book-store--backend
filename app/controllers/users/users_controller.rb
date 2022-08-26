@@ -5,18 +5,15 @@ class Users::UsersController < ApplicationController
       render json: user ,status:200
     end
       
-    def create
-      user = User.create(user_params)
-  
-      if user.save
-        # Tell the UserMailer to send a welcome email after save
-        UserMailer.with(user: user).welcome_email.deliver_later
-  
-      render json: user, status: 200
-      else
-      render json:{error: "not created"}
-      end
-    end
+    # def create
+    
+    #   user = User.create(user_params)
+    #   if user.save
+    #   render json: user, status: 200
+    #   else
+    #   render json:{error: "not created"}
+    #   end
+    # end
   
     def update
       user = User.where(id: params[:id]).first
@@ -28,8 +25,8 @@ class Users::UsersController < ApplicationController
     end
   
     def destroy
-      admin = Admin.destroy(params[:id])
-      render json: admin, status:200
+      user = User.destroy(params[:id])
+      render status:200
     end
     
     def get_admin
@@ -37,8 +34,9 @@ class Users::UsersController < ApplicationController
       render json: admin , status: 200
     end
   
-    def user_params
-      params.require(:user).permit( :name, :phone, :address, :role)
-    end
+    # def user_params
+    #   params.require(:user).permit(:name, :phone, :address, :email, :password, :role,:confirmPassword
+    #   )
+    # end
   
   end
