@@ -1,75 +1,68 @@
 class Book::BooksController < ApplicationController
-  # before_action :authenticate_user!
   
+  # cancancan authorization
+  load_and_authorize_resource
+
+  before_action :set_book, only: [:show, :update, :destroy]
+
   # GET /books
     def index
-      # if current_user.role == "user" 
        books = Book.all
-       render json: books
-      # end
+       render json: books, status: 200
     end
   
 
     # GET /books/1
     def show
-      
+      render json: @book , status:200
     end
   
     # POST /books
 
     def create
-      if current_user.role == "admin"
-      book = Book.new(book_params)
-  
-      if book.save
-        # User will get email confirmation after new book creation
-        # UserMailer.new_book_creation(@book).deliver_later
-        render json: {
-           message: "Book was created sucessfully!" , 
-           book: book ,
-          status: :created
-      }
-      else
-        render  book.errors
-      end
+        book = Book.new(book_params)
+        if book.save
+          # User will get email confirmation after new book creation
+          # UserMailer.new_book_creation(@book).deliver_later
+          render json: {
+            message: "Book was created sucessfully!" , 
+            book: book ,
+            status: :created
+        }
+        else
+          render  book.errors
+        end
     end
-    end
+    
   
     # PATCH/PUT /books/1
     def update
-      if current_user.role == "admin"
-     
-      book = Book.where(id: params[:id]).first
-      if book.update(book_params)
-        render json: book, status:200
+      if @book.update(book_params)
+        render json: { "message" => "book updated successfully", "book" => gen_book_data}
       else
-        render json: book.errors , status:422
-      end
+        render json: @book.errors
     end
     end
   
     # DELETE /books/1
     def destroy
       if @book.destroy
-        success_response("Book deleted successfully with id: #{@book.id}, name: #{@book.name}, book_creator: #{@book.user.name}")
+        render json: {"message" => "Book deleted successfully with id: #{@book.id}, name: #{@book.name} "}
       else
-        faliure_response("Book is not deleted")
+       render json: {"message" =>"Book is not deleted"}
       end
     end
   
-    private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_book
-        @book = Book.find(params[:id])
-      end
-  
-      # Only allow a list of trusted parameters through.
-      def book_params
-        params.require(:book).permit(:name, :author, :edition, :quantity)
-      end
+private
 
-      def load_user
-        request.headers["Authorization"]
-      end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_book
+    @book = Book.find(params[:id])
+  end
+  
+  # Only allow a list of trusted parameters through.
+  def book_params
+    params.require(:book).permit(:name, :author, :edition, :quantity)
+  end
   end
   
