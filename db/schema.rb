@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2022_08_26_102819) do
     t.datetime "remember_created_at"
     t.string "phone"
     t.string "address"
-    t.string "role", default: "0"
+    t.integer "role", default: 0
     t.string "encrypted_password", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

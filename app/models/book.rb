@@ -1,17 +1,17 @@
 class Book < ApplicationRecord
 
-    belongs_to :user
+    # belongs_to :user
 
   # Validations
   validates :name, presence: true,
                         uniqueness: {case_sensitive: false},
-                        length: {minimum: 4, maximum: 300}
+                        length: {minimum: 1, maximum: 300}
 
   validates :author, presence: true,
                         length: {minimum: 4, maximum: 300}
 
   
-  validates :user_id, presence: true
+  # validates :user_id, presence: true
 
   validates :quantity, presence: true
 

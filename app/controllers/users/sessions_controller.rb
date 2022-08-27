@@ -4,6 +4,9 @@ class Users::SessionsController < Devise::SessionsController
     private
   
     def respond_with(resource, _opts = {})
+      # token = JsonWebToken.encode(data)
+      # resource.token = token
+      # resource.save
       render json: { message: 'You are logged in.' }, status: :ok
     end
   

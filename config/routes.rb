@@ -1,21 +1,21 @@
 Rails.application.routes.draw do
-
-   # This will generate devise routes
   devise_for :users,
              controllers: {
                  sessions: 'users/sessions',
                  registrations: 'users/registrations'
-             }
-#users routes
+              }
+
+  #users routes
   namespace :users do
-    resources :users ,only: [:index, :create]
+    resources :users ,only: [:index, :create, :update]
   end 
 
-  # books routes
+# books routes
   namespace :book do
     resources :books, path: '/'
   end
-
-    get '/member-data', to: 'members#show'
+  
+  resources :issuedbooks, controller: "books/issuedbooks"
+  get '/member-data', to: 'members#show'
 
 end

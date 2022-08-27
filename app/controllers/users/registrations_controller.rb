@@ -1,7 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
     respond_to :json
   
-    private
+    # private
   
     def respond_with(resource, _opts = {})
       register_success && return if resource.persisted?
@@ -10,6 +10,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   
     def register_success
+      # Tell the UserMailer to send a welcome email after save
+      # UserMailer.with(user: user).welcome_email.deliver_later
       render json: {
          message: 'Signed up sucessfully.',
         
