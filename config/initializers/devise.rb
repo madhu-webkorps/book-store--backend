@@ -15,7 +15,10 @@ Devise.setup do |config|
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
   # config.secret_key = 'ba8167d4ceb3fcbe929a74151848b74a8157c7416cafeda0ef6d7b09e342fdba75dba071447458a14f3aeb42281732d092d53dc09a697e7eef5cb545dbbdce52'
-
+  config.jwt do |jwt|
+    jwt.secret = Rails.application.credentials.devise[:jwt_secret_key]
+   
+  end
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
@@ -184,7 +187,7 @@ Devise.setup do |config|
   # one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
   config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
-
+  config.skip_session_storage = [:http_auth, :params_auth]
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
@@ -308,7 +311,5 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
-  config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.devise[:jwt_secret_key]
-  end
+  
 end

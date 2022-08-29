@@ -16,6 +16,9 @@ class User < ApplicationRecord
         has_many :books, dependent: :destroy
         has_many :issuedbooks, dependent: :destroy
 
+        def generate_jwt
+          JWT.encode({id: id, exp: 1.hours.from_now.to_i}, Rails.application.secrets.secret_key_base)
+        end
       # VALID_EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
       #   validates :email, presence: true,
@@ -33,11 +36,11 @@ class User < ApplicationRecord
       #                         length: {minimum: 6, maximum: 20}
 
  
-      after_commit :schedule_welcome_email, on: :create
+      # after_commit :schedule_welcome_email, on: :create
 
-      def schedule_welcome_email
-        UserMailer.with(user: self).welcome_email.deliver_later
-      end
+      # def schedule_welcome_email
+      #   UserMailer.with(user: self).welcome_email.deliver_later
+      # end
   
             
 end

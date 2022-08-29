@@ -1,12 +1,14 @@
 class Book::BooksController < ApplicationController
   
   # cancancan authorization
-  load_and_authorize_resource
+  # load_and_authorize_resource
+ 
 
   before_action :set_book, only: [:show, :update, :destroy]
 
   # GET /books
     def index
+      debugger
        books = Book.all
        render json: books, status: 200
     end
@@ -62,7 +64,7 @@ private
   
   # Only allow a list of trusted parameters through.
   def book_params
-    params.require(:book).permit(:name, :author, :edition, :quantity)
+    params.require(:book).permit(:name, :author, :edition, :quantity,:image)
   end
   end
   

@@ -1,24 +1,25 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-    respond_to :json
-  
-    # private
-  
-    def respond_with(resource, _opts = {})
-      register_success && return if resource.persisted?
-  
-      register_failed
-    end
-  
-    def register_success
-      # Tell the UserMailer to send a welcome email after save
-      # UserMailer.with(user: user).welcome_email.deliver_later
-      render json: {
-         message: 'Signed up sucessfully.',
-        
-     }
-    end
-  
-    def register_failed
-      render json: { message: "Something went wrong." }
-    end
+ respond_to :json
+
+     def create
+      @user = User.new(sign_up_params)
+      if @user.save
+        token = @user.generate_jwt
+        render json: { message: 'Signed up sucessfully.',
+        token: token,
+        user: @user
+      }
+      else
+        render json: { errors: { 'email or password' => ['is invalid'] } }, status: :unprocessable_entity
+      end
+    end 
 end
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+  root 'members#show'
   devise_for :users,
              controllers: {
                  sessions: 'users/sessions',
@@ -14,8 +16,9 @@ Rails.application.routes.draw do
   namespace :book do
     resources :books, path: '/'
   end
-  
-  resources :issuedbooks, controller: "books/issuedbooks"
-  get '/member-data', to: 'members#show'
 
+  resources :issuedbooks, controller: "book/issuedbooks"
+  # get '/member-data', to: 'members#show'
+
+  
 end

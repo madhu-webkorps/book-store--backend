@@ -21,10 +21,11 @@ gem 'devise'
 gem 'devise-jwt'
 gem 'rack-cors'
 
-
+# webpacker gem
+gem 'webpacker', '~> 5.x'
 
 # Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
@@ -47,7 +48,7 @@ group :development do
   gem 'sidekiq' #sidekiq
   gem "letter_opener" #mail preview
   gem 'capistrano-sidekiq'
-  gem 'image_processing', '~> 1.2' #for image processing
+  # gem 'image_processing', '~> 1.2' #for image processing
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
