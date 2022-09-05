@@ -1,49 +1,51 @@
 class Book::BooksController < ApplicationController
   
-  # cancancan authorization
+  before_action :authentication 
   # load_and_authorize_resource
- 
+  # cancancan authorization
+  
 
   before_action :set_book, only: [:show, :update, :destroy]
 
   # GET /books
     def index
-      debugger
+      
        books = Book.all
-       render json: books, status: 200
+       render json: books, status: 200 
     end
-  
 
     # GET /books/1
     def show
       render json: @book , status:200
     end
-  
+
     # POST /books
 
     def create
-        book = Book.new(book_params)
-        if book.save
-          # User will get email confirmation after new book creation
-          # UserMailer.new_book_creation(@book).deliver_later
-          render json: {
-            message: "Book was created sucessfully!" , 
-            book: book ,
-            status: :created
-        }
-        else
-          render  book.errors
-        end
-    end
     
-  
+        if @user.role == "admin" 
+        book = Book.new(book_params)
+          if book.save
+            render json: {
+              message: "Book was created sucessfully!" , 
+              book: book ,
+              status: :created
+            }
+          else
+            render  book.errors
+          end
+        else 
+          render json: {message: "access deniend"}
+       end
+    end
+
     # PATCH/PUT /books/1
     def update
       if @book.update(book_params)
         render json: { "message" => "book updated successfully", "book" => gen_book_data}
       else
         render json: @book.errors
-    end
+      end
     end
   
     # DELETE /books/1
@@ -64,7 +66,7 @@ private
   
   # Only allow a list of trusted parameters through.
   def book_params
-    params.require(:book).permit(:name, :author, :edition, :quantity,:image)
+    params.require(:book).permit(:name, :author, :edition, :quantity,:image , :user_id)
   end
   end
   

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_29_055441) do
+ActiveRecord::Schema.define(version: 2022_09_05_103010) do
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -57,17 +57,20 @@ ActiveRecord::Schema.define(version: 2022_08_29_055441) do
     t.integer "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
   end
 
   create_table "issuedbooks", force: :cascade do |t|
     t.integer "user_id"
     t.integer "book_id"
-    t.boolean "is_returned"
+    t.boolean "is_returned", default: false
     t.datetime "return_dt"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.float "fine"
     t.datetime "submittion"
+    t.date "issued_on"
+    t.string "book_name"
   end
 
   create_table "jwt_denylist", force: :cascade do |t|

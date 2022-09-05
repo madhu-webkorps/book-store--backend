@@ -1,13 +1,13 @@
 class MembersController < ApplicationController
 # before_action :authenticate_user!
 
-  # def show
-  #   user = get_user_from_token
-  #   render json:{
-  #   message: "if see this you arwe sign in",
-  #   user: user
-  #   }
-  # end
+  def index
+    # user = get_user_from_token
+    render json:{
+    message: "if see this you arwe sign in",
+    # user: user
+    }
+  end
 
 
   # private
