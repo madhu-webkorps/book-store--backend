@@ -33,7 +33,9 @@ class Issuedbook < ApplicationRecord
 
 # send mail to user for issuedbook
     def issued_book_mail
-      UserMailer.with(user: self).issuedBook_mail.deliver_later
+      debugger
+      @user = User.find(self.user_id)
+      UserMailer.with(user: @user).issuedBook_mail.deliver_later
     end
 
   

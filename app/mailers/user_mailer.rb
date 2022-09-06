@@ -9,7 +9,7 @@ class UserMailer < ApplicationMailer
 
     def issuedBook_mail
       @user = params[:user]
-      @url  = 'http://localhost:3000/LoginForm'
+      # @url  = 'http://localhost:3000/LoginForm'
       mail(to: @user.email, subject: 'Book issued ')
     end
     

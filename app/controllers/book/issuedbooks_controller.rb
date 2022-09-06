@@ -6,7 +6,6 @@ class Book::IssuedbooksController < ApplicationController
  
   
  def index
-  
     if signed_in?
        if @user.role == "admin" 
           @issuedbooks = Issuedbook.all
@@ -19,10 +18,8 @@ class Book::IssuedbooksController < ApplicationController
             message: "Issuedbooks are",  
             issuedbooks: @issuedbooks}
           end
-
        elsif @user.role == "user"
           @issuedbooks = @user.issuedbooks
-          
           if @issuedbooks.empty?
             render json: 
               {message:" You haven't issued any book "}
@@ -36,12 +33,11 @@ class Book::IssuedbooksController < ApplicationController
           render json:{
             message: "no record found"
           }
-
-        end
-        
+        end   
     else 
       render json: {message: "signed first"}
-    end 
+    end
+
   end
 
   def show
@@ -86,6 +82,7 @@ class Book::IssuedbooksController < ApplicationController
         if @issuedbook.save
           @issuedbook.book.update(id: @issuedbook.book.id)
           @issuedbook.book.user = @user
+          
            render json: {book_issued: @issuedbook}, status: :created
         else
           render @issuedbook.errors
@@ -136,35 +133,45 @@ class Book::IssuedbooksController < ApplicationController
 
   # POST
         def return
-          
           @issuedbook = Issuedbook.find(params[:id])
             if @issuedbook.user == @user
+              
               if @issuedbook.return_dt.day == DateTime.now.day
                 @issuedbook.fine = 0
               else
-                late_days =   (DateTime.now.day - @issuedbook.return_dt.day).to_i
-                case late_days
+                days =   (DateTime.now.to_i) - (@issuedbook.return_dt.to_i)
+                late_days = (days/1.day).to_i
+                 case late_days
                 when 1..30
                   @issuedbook.fine = late_days * 7
-                  "Your are late to return book on time  you have! to pay this fine #{late_days}"
+                   
                 when 30..60
                   @issuedbook.fine = late_days * 15
-                  "Your are late to return book on time  you have! to pay this fine #{late_days}"
-                
+                   
                 when 60..90
                   @issuedbook.fine = late_days * 25
-                  "Your are late to return book on time  you have! to pay this fine #{late_days}"
-                else
+                   
+                 else
                   "pls return the book after today you have to pay fine"
                 end
               end
-              @issuedbook.destroy
-              @issuedbook.book.update(id: @issuedbook.book.id , quantity: @issuedbook.book.quantity + 1)
+              if @issuedbook.fine == 0
+                  @issuedbook.destroy
+                  @issuedbook.book.update(id: @issuedbook.book.id , quantity: @issuedbook.book.quantity + 1)
               # UserMailer.issue_return_create(@issuedbook).deliver_later
-             render json: {message: "Book was issued by you is return successfully"}, status: 200
+                  render json: {message: "Book was issued by you is return successfully"}, status: 200
+              else
+                render json: {
+                  message: "frist pay fine",
+                  fine: @issuedbook.fine
+                }
+
+              end
+
             else
               render json:{
                 message:"This book is not issued by you."
+               
               } 
               
             end
