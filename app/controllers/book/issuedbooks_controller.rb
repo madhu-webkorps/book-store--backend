@@ -3,7 +3,9 @@ class Book::IssuedbooksController < ApplicationController
 
   before_action :authentication 
   # before_action load_and_authorize_resource , only: [:create]
- 
+  require 'stripe'
+  Stripe.api_key =
+  'sk_test_51LYBP3SDMv4dgdhUer8AFidk7ps2wzP90UWfDQtmzOQjYV9JgZW9mxQBHkPEqWlVs03iGGba36iMRSZtriRUmQaL00h22bVlg1'
   
  def index
     if signed_in?
@@ -82,7 +84,7 @@ class Book::IssuedbooksController < ApplicationController
         if @issuedbook.save
           @issuedbook.book.update(id: @issuedbook.book.id)
           @issuedbook.book.user = @user
-          
+
            render json: {book_issued: @issuedbook}, status: :created
         else
           render @issuedbook.errors
@@ -176,6 +178,28 @@ class Book::IssuedbooksController < ApplicationController
               
             end
 
+          
+        end
+
+        # def payFine
+        #   @issuedbook = Issuedbook.find(params[:id])
+           
+        #   price = Stripe::Price.create({
+        #   unit_amount: (@issuedbook.fine * 100).to_i,
+        #   currency: 'inr',
+        #   product: 'prod_MNmtnyq6vDcLg7'
+        # })
+
+        # order = Stripe::PaymentLink.create(
+        #   line_items: [{price: price.id, quantity: 1}],
+        #   after_completion: {type: 'redirect', redirect: {url: 'http://localhost:3001/UserIssuebook'}}
+        #  )
+        # end
+
+        def payFine
+       
+          @issuedbook = Issuedbook.find(params[:id])
+          @issuedbook.destroy!
           
         end
         

@@ -18,5 +18,6 @@ Rails.application.routes.draw do
 
   resources :issuedbooks, controller: "book/issuedbooks"
   post 'issuedbooks/return/:id', to: "book/issuedbooks#return"
+  post 'issuedbooks/pay_fine/:id', to: "book/issuedbooks#payFine"
 
 end
