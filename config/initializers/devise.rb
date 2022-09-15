@@ -14,11 +14,8 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = 'ba8167d4ceb3fcbe929a74151848b74a8157c7416cafeda0ef6d7b09e342fdba75dba071447458a14f3aeb42281732d092d53dc09a697e7eef5cb545dbbdce52'
-  config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.devise[:jwt_secret_key]
-   
-  end
+  # config.secret_key = 'edaa970373dc37dd51e531d695a6efc2db21bef9cb4db9ab4da7e1a61417411a338697cc1a856fadb49efccd1cac60e70cc845fd388b834d1c59b269f9790048'
+
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
@@ -129,7 +126,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '3570333b47185ac3b715a324a5f3d0cec7dcf38a0d7f4a42391886d1e20b4254f283f184953b9f8bd847218f6da6b128e821766afa568442917d3a2df87ab9be'
+  # config.pepper = 'afae8432448a79942ac2d288c12077064eba933ef420fc0572921a45c4013cd6e95d946cc7964b25452520e366ae45a7963e25fd8f328d895b307a9553213a21'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -187,7 +184,7 @@ Devise.setup do |config|
   # one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
   config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
-  config.skip_session_storage = [:http_auth, :params_auth]
+
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
@@ -311,5 +308,4 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
-  
 end
