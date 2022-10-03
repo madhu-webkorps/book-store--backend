@@ -1,3 +1,4 @@
+
 class Book::IssuedbooksController < ApplicationController
     # cancancan authorization
 
@@ -55,6 +56,7 @@ class Book::IssuedbooksController < ApplicationController
   end
 
   def create
+  
     if @user.admin? 
       render json: {
         message: "access deniend"
@@ -64,13 +66,15 @@ class Book::IssuedbooksController < ApplicationController
     
     # getting current user issued books
     books = @user.issuedbooks
+    debugger
+    
     array = []
     books.each do |book|
       if book.is_returned == false
         array << book.book_id
       end
     end
-  
+     
 
     if array.include?(@issuedbook.book.id)
       render json: {

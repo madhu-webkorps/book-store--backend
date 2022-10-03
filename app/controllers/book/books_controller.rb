@@ -1,9 +1,8 @@
 class Book::BooksController < ApplicationController
   
   before_action :authentication 
-  # load_and_authorize_resource
+  load_and_authorize_resource
   # cancancan authorization
-  
 
   before_action :set_book, only: [:show, :update, :destroy]
 
@@ -22,7 +21,6 @@ class Book::BooksController < ApplicationController
     # POST /books
 
     def create
-    
         if @user.role == "admin" 
         book = Book.new(book_params)
           if book.save
@@ -41,6 +39,7 @@ class Book::BooksController < ApplicationController
 
     # PATCH/PUT /books/1
     def update
+      debugger
       if @book.update(book_params)
         render json: { "message" => "book updated successfully", "book" => gen_book_data}
       else
@@ -61,6 +60,7 @@ private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_book
+    debugger
     @book = Book.find(params[:id])
   end
   

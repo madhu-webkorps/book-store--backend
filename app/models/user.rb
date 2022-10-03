@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 
- after_commit :schedule_welcome_email, on: :create
+#  after_commit :schedule_welcome_email, on: :create
  # devise
   devise :database_authenticatable,
          :jwt_authenticatable,
@@ -15,7 +15,7 @@ class User < ApplicationRecord
   end
 
 # association  for book
-  has_many :books, dependent: :destroy
+  # has_many :books, dependent: :destroy
   has_many :issuedbooks, dependent: :destroy
  
   def generate_jwt

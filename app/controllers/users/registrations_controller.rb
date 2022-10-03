@@ -1,6 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
 #  custom create
   def create
+    debugger
     @user = User.new(sign_up_params)
     
     if @user.save!
@@ -9,6 +10,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
       token: token,
       user: @user
     }
+
+    #service for sending mail when user register...
+     NewRegistrationService.new(user: @user).perform
+     
     else
       render json: { errors: { 'email or password' => ['is invalid'] } }, status: :unprocessable_entity
     end

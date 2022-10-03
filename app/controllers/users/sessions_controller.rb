@@ -5,7 +5,7 @@ class Users::SessionsController < Devise::SessionsController
   
     @user = User.find_by_email(sign_in_params[:email])
     if @user && @user.valid_password?(sign_in_params[:password])
-    token = encode_user_data({ user_data: @user.id })
+     token = encode_user_data({ user_data: @user.id })
     render json: { message: 'You are logged in.', user: @user, token: token}
     else
       render json: { errors: { 'email or password' => ['is invalid'] } }, status: :unprocessable_entity
